@@ -1,0 +1,30 @@
+window.onload = () => {
+  const input = document.getElementById("txtHint");
+  console.log(input);
+  input.addEventListener("keyup", (e) => {
+    e.preventDefault();
+    showName(e.target.value);
+  });
+};
+
+function showName(str) {
+  if (str.length == 0) {
+    //exit if nothing was typed
+    document.getElementById("txtName").innerHTML = ""; //clear results
+    return;
+  }
+  if (window.XMLHttpRequest) {
+    //code for IE7+,Ff,Chrome,Opera,Safari
+    xmlhttp = new XMLHttpRequest();
+  } else {
+    //code for IE6, IE5
+    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange = function () {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+      document.getElementById("txtName").innerHTML = xmlhttp.responseText;
+    }
+  };
+  xmlhttp.open("GET", "frameworks.php?name=" + str, true);
+  xmlhttp.send();
+}
